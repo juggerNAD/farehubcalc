@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fare Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="checkbox"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+        }
+
+        /* Ad container style */
+        #adContainer {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Fare Calculator</h1>
+        <p>Base Flagdown Rate: ₱40</p>
+        <p>Additional Charge per Kilometer: ₱18</p>
+        <p>Charge per Minute: ₱1</p>
+
+        <!-- Display Ads toggle -->
+        <label for="adsToggle">Display Ads:</label>
+        <input type="checkbox" id="adsToggle" onchange="toggleAds()">
+
+        <label for="origin">Origin:</label>
+        <input type="text" id="origin" placeholder="Enter origin" required>
+
+        <label for="destination">Destination:</label>
+        <input type="text" id="destination" placeholder="Enter destination" required>
+
+        <label for="distance">Distance (in kilometers):</label>
+        <input type="number" id="distance" placeholder="Enter distance" required>
+
+        <label for="duration">Duration (in minutes):</label>
+        <input type="number" id="duration" placeholder="Enter duration" required>
+
+        <button onclick="calculateFare()">Calculate Fare</button>
+
+        <!-- Ad container (hidden by default) -->
+        <div id="adContainer" style="display: none;">
+            <p>Advertisement:</p>
+            <!-- Replace with your ad content or code -->
+            <p>This is where the ad content goes.</p>
+        </div>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function calculateFare() {
+            const baseRate = 40;
+            const additionalChargePerKm = 18;
+            const chargePerMinute = 1;
+
+            const origin = document.getElementById("origin").value.trim();
+            const destination = document.getElementById("destination").value.trim();
+            const distance = parseFloat(document.getElementById("distance").value);
+            const duration = parseFloat(document.getElementById("duration").value);
+
+            if (origin === "" || destination === "" || isNaN(distance) || isNaN(duration)) {
+                alert("Please fill in all fields with valid values.");
+                return;
+            }
+
+            const fare = baseRate + (distance * additionalChargePerKm) + (duration * chargePerMinute);
+
+            const resultElement = document.getElementById("result");
+            resultElement.innerHTML = `
+                <p><strong>Origin:</strong> ${origin}</p>
+                <p><strong>Destination:</strong> ${destination}</p>
+                <p><strong>Total Fare:</strong> ₱${fare.toFixed(2)}</p>
+            `;
+
+            // Display ads if the toggle is enabled
+            if (document.getElementById("adsToggle").checked) {
+                const adContainer = document.getElementById("adContainer");
+                adContainer.style.display = "block";
+            } else {
+                const adContainer = document.getElementById("adContainer");
+                adContainer.style.display = "none";
+            }
+        }
+
+        function toggleAds() {
+            // Toggle ads based on the checkbox state
+            const adContainer = document.getElementById("adContainer");
+            const adsToggle = document.getElementById("adsToggle");
+
+            if (adsToggle.checked) {
+                adContainer.style.display = "block";
+            } else {
+                adContainer.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>
